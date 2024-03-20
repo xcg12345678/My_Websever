@@ -8,23 +8,26 @@ using namespace std;
 class util_timer;
 class client_time
 {
+public:
     int sockfd;
     sockaddr_in address;
-    utile_timer *m_timer;
+    util_timer *m_timer;
 };
 class util_timer
 {
 public:
     util_timer() : prev(NULL), next(NULL) {}
 
-private:
+public:
     void (*cbfunc)(client_time *); // 回调函数
     timer_t expire;
+    client_time *userdata;
     util_timer *prev;
     util_timer *next;
 };
 class sort_timer_lst // 调整时间
 {
+public:
     sort_timer_lst();
     ~sort_timer_lst();
 
@@ -49,9 +52,10 @@ public:
     void setsig_noblock(int fd);
     void timer_handler();
     void show_error(int connfd, const char *info);
-    void public : static int *u_nipipe;
+    static int *u_nipipe;
     static int e_poolfd;
     int TIME_SLOT;
+    sort_timer_lst m_time_list;
 };
 void cbfunc(client_time *userdata);
 #endif // !TIMER_H
